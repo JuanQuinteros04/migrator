@@ -12,8 +12,8 @@ public class ConMemo {
     public void test1() {
         Charset stringCharset = Charset.forName("cp1252");
 
-        InputStream dbf = getClass().getClassLoader().getResourceAsStream("data1/clinica.dbf");
-        InputStream memo = getClass().getClassLoader().getResourceAsStream("data1/clinica.fpt");
+        InputStream dbf = getClass().getClassLoader().getResourceAsStream("data1/clinica/clinica.dbf");
+        InputStream memo = getClass().getClassLoader().getResourceAsStream("data1/clinica/clinica3.csv");
 
         try (DbfReader reader = new DbfReader(dbf, memo)) {
             DbfMetadata meta = reader.getMetadata();

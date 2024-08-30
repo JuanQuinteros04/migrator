@@ -7,13 +7,15 @@ import net.iryndin.jdbf.reader.DbfReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.text.ParseException;
+
 
 public class ConMemo {
-    public void test1() {
+    public void test1(String codigoPaci) {
         Charset stringCharset = Charset.forName("cp1252");
 
         InputStream dbf = getClass().getClassLoader().getResourceAsStream("data1/clinica/clinica.dbf");
-        InputStream memo = getClass().getClassLoader().getResourceAsStream("data1/clinica/clinica3.csv");
+        InputStream memo = getClass().getClassLoader().getResourceAsStream("data1/clinica/clinica.FPT");
 
         try (DbfReader reader = new DbfReader(dbf, memo)) {
             DbfMetadata meta = reader.getMetadata();
@@ -21,21 +23,22 @@ public class ConMemo {
 
             DbfRecord rec;
             while ((rec = reader.read()) != null) {
-                rec.setStringCharset(stringCharset);
+                    rec.setStringCharset(stringCharset);
 
-                System.out.println("CODIGOPACI: " + rec.getString("CODIGOPACI"));
+                    String numeroPaciActual = rec.getString("CODIGOPACI");
+//                    System.out.println(numeroPaciActual);
 
-                try {
-                    // this reads MEMO field
-                    System.out.println("DESCRIP: " + rec.getMemoAsString("DESCRIP"));
-                } catch (IOException e) {
-                    System.err.println("Error al leer el MEMO: ");
-                    e.printStackTrace();
-                    // Puedes decidir qué hacer en caso de error, como saltar este registro o continuar
-                }
+                    if(codigoPaci.equals(numeroPaciActual)){
+                        System.out.println("CODIGOPACI: " + rec.getString("CODIGOPACI"));
+                        // this reads MEMO field
+                        System.out.println("DESCRIP: " + rec.getMemoAsString("DESCRIP"));
 
-                System.out.println("++++++++++++++++++++++++++++++++++");
+                        System.out.println("++++++++++++++++++++++++++++++++++");}else {
+//                        System.out.println("El codigo: " + numeroPaciActual + " no es valido");
+                    }
             }
+
+//            System.out.println(meta.getFields());
 
         } catch (IOException e) {
             e.printStackTrace();

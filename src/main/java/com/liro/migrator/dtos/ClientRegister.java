@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
+
 public class ClientRegister {
 
     private String name;

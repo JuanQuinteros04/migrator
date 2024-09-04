@@ -80,6 +80,8 @@ public class ClientsMigrator {
             }
         }
 
+        feignUserClient.createClients(clientRegisterList, vetUserId);
+
         clientRegisterList.forEach(System.out::println);
 
         return null;

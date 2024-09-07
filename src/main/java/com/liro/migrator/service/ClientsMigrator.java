@@ -53,6 +53,8 @@ public class ClientsMigrator {
 
                 String email = row.getString("Email");
                 String saldo = row.getString("Saldo");
+                String codigo = row.getString("Codigo");
+
 
                 //Podría usarse para filtrar que usuarios migrar
                 String ultVez = row.getString("Ultimavez");
@@ -72,6 +74,7 @@ public class ClientsMigrator {
                         .saldo(Double.valueOf(saldo))
                         .email(email)
                         .address(addressDTO)
+                        .codigo()
                         .build();
 
                 clientRegisterList.add(clientRegister);

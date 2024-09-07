@@ -24,4 +24,5 @@ public class ClientRegister {
     private String email;
     private AddressDTO address;
     private Double saldo;
+    private Long codigo;
 }

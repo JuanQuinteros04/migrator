@@ -24,7 +24,7 @@ public class MigratorController {
         this.breedsMigrator = breedsMigrator;
     }
 
-    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> migrateUsers(@RequestPart(required = true) MultipartFile file,
                                              @RequestParam("vetUserId") Long vetUserId) throws IOException {
         clientsMigrator.migrate(vetUserId, file);
@@ -32,7 +32,7 @@ public class MigratorController {
         return ResponseEntity.status(200).build();
     }
 
-    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/animals", produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> migrateAnimals(@RequestPart(required = true) MultipartFile file,
                                              @RequestParam("vetUserId") Long vetUserId) throws IOException {
         clientsMigrator.migrate(vetUserId, file);
@@ -40,7 +40,7 @@ public class MigratorController {
         return ResponseEntity.status(200).build();
     }
 
-    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/breeds", produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> migrateBreeds(@RequestPart(required = true) MultipartFile file) throws IOException {
         breedsMigrator.migrate(file);
 

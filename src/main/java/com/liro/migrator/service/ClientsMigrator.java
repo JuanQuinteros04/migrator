@@ -74,7 +74,7 @@ public class ClientsMigrator {
                         .saldo(Double.valueOf(saldo))
                         .email(email)
                         .address(addressDTO)
-                        .codigo()
+                        .codigo(codigo)
                         .build();
 
                 clientRegisterList.add(clientRegister);

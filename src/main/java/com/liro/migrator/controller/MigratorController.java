@@ -25,9 +25,11 @@ public class MigratorController {
     }
 
     @PostMapping(value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Void> migrateUsers(@RequestPart(required = true) MultipartFile file,
+    public ResponseEntity<Void> migrateUsers(@RequestPart(required = true, value = "users") MultipartFile usersFile,
+                                             @RequestPart(required = true, value = "animals") MultipartFile animalsFile,
+
                                              @RequestParam("vetUserId") Long vetUserId) throws IOException {
-        clientsMigrator.migrate(vetUserId, file);
+        clientsMigrator.migrate(vetUserId, usersFile);
 
         return ResponseEntity.status(200).build();
     }

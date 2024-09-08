@@ -1,5 +1,6 @@
 package com.liro.migrator.config;
 
+import com.liro.migrator.dtos.MigratorRequest;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 @Configuration
 @EnableSwagger2
@@ -40,6 +43,10 @@ public class RestTemplateConfig {
     public String AUTH_SERVER = "http://144.22.55.224:8085/api/security";
 
 
+    @Bean
+    public Queue<MigratorRequest> migratorQueue(){
+        return new LinkedBlockingDeque<MigratorRequest>();
+    }
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

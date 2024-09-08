@@ -7,6 +7,7 @@ import com.liro.migrator.config.FeignUserClient;
 import com.liro.migrator.dtos.AddressDTO;
 import com.liro.migrator.dtos.AnimalDTO;
 import com.liro.migrator.dtos.ClientRegister;
+import com.liro.migrator.dtos.UserResponse;
 import com.liro.migrator.dtos.enums.Sex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +23,7 @@ public class AnimalsMigrator {
     @Autowired
     FeignAnimalClient feignAnimalClient;
 
-    public Void migrate(Long vetUserId, MultipartFile file) throws IOException {
+    public Void migrate(Long vetUserId, MultipartFile file, List<UserResponse> userResponses) throws IOException {
 
         List<AnimalDTO> animalDTOS = new ArrayList<>();
 
@@ -50,14 +51,19 @@ public class AnimalsMigrator {
                 Date fechaalta = row.getDate("Fechaalta");
 
 
+                UserResponse user  = userResponses.stream()
+                        .filter(userResponse -> userResponse.getCodigoVetter().equals(vetUserId + "-" + codigoPaciente))
+                        .findFirst()
+                        .orElseThrow(NoClassDefFoundError::new);
 
                 AnimalDTO animalDTO = AnimalDTO.builder()
                         .name(nombre)
+                        .surname(user.getSurname())
                         .death(isDeathConverter(vive))
                         .sex(sexConverter(sexo))
                         .birthDate(fechaNaci)
-                        //.breedId()
-                        //.ownerUserId()
+                        .breed(raza)
+                        .ownerUserId(user.getId())
                         .build();
 
                 animalDTOS.add(animalDTO);

@@ -2,6 +2,7 @@ package com.liro.migrator.config;
 
 
 import com.liro.migrator.dtos.ClientRegister;
+import com.liro.migrator.dtos.UserResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,6 @@ import java.util.List;
 public interface FeignUserClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/users/clients")
-    ResponseEntity<Void> createClients(@RequestBody List<ClientRegister> clientRegisters,
-                                       @RequestParam("vetUserId") Long vetUserId);
+    ResponseEntity<List<UserResponse>> createClients(@RequestBody List<ClientRegister> clientRegisters,
+                                                     @RequestParam("vetUserId") Long vetUserId);
 }

@@ -25,6 +25,6 @@ public class AnimalDTO {
     private Date birthDate;
     private Boolean death;
     private Sex sex;
-    private Long breedId;
+    private String breed;
     private Long ownerUserId;
 }

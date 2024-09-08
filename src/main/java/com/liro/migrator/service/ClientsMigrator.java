@@ -6,6 +6,7 @@ import com.linuxense.javadbf.DBFRow;
 import com.liro.migrator.config.FeignUserClient;
 import com.liro.migrator.dtos.AddressDTO;
 import com.liro.migrator.dtos.ClientRegister;
+import com.liro.migrator.dtos.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class ClientsMigrator {
     @Autowired
     FeignUserClient feignUserClient;
 
-    public Void migrate(Long vetUserId, MultipartFile file) throws IOException {
+    public List<UserResponse> migrate(Long vetUserId, MultipartFile file) throws IOException {
 
         List<ClientRegister> clientRegisterList = new ArrayList<>();
 
@@ -83,10 +84,7 @@ public class ClientsMigrator {
             }
         }
 
-        feignUserClient.createClients(clientRegisterList, vetUserId);
+        return feignUserClient.createClients(clientRegisterList, vetUserId).getBody();
 
-        clientRegisterList.forEach(System.out::println);
-
-        return null;
     }
 }

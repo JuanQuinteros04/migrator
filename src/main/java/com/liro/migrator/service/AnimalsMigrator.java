@@ -10,6 +10,7 @@ import com.liro.migrator.dtos.ClientRegister;
 import com.liro.migrator.dtos.UserResponse;
 import com.liro.migrator.dtos.enums.Sex;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
+@Component
 public class AnimalsMigrator {
     @Autowired
     FeignAnimalClient feignAnimalClient;

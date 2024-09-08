@@ -15,7 +15,7 @@ import java.util.List;
 @FeignClient(name = "animals-service")
 public interface FeignAnimalClient {
 
-    @RequestMapping(method = RequestMethod.POST, value = "/animals")
+    @RequestMapping(method = RequestMethod.POST, value = "/animals/migrate")
     ResponseEntity<Void> createAnimals(@RequestBody List<AnimalDTO> animalDTOS,
                                        @RequestParam("vetUserId") Long vetUserId);
 

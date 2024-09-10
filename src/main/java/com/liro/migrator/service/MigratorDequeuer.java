@@ -2,6 +2,7 @@ package com.liro.migrator.service;
 
 import com.liro.migrator.dtos.MigratorRequest;
 import com.liro.migrator.dtos.UserResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -12,10 +13,13 @@ import java.util.Queue;
 @Component
 public class MigratorDequeuer {
 
+    @Autowired
     private final ClientsMigrator clientsMigrator;
 
+    @Autowired
     private final AnimalsMigrator animalsMigrator;
 
+    @Autowired
     private final Queue<MigratorRequest> migratorQueue;
 
     public MigratorDequeuer(ClientsMigrator clientsMigrator, AnimalsMigrator animalsMigrator, Queue<MigratorRequest> migratorQueue) {

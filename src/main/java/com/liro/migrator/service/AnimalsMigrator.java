@@ -41,6 +41,8 @@ public class AnimalsMigrator {
             while (row != null) {
 
                 String codigoPaciente = row.getString("Codigopaci");
+                String codigo = row.getString("Codigo");
+
 
                 String nombre = row.getString("Nombre");
                 String especie = row.getString("Especie");
@@ -56,7 +58,7 @@ public class AnimalsMigrator {
 
 
                 UserResponse user  = userResponses.stream()
-                        .filter(userResponse -> userResponse.getCodigoVetter().equals(vetUserId + "-" + codigoPaciente))
+                        .filter(userResponse -> userResponse.getCodigoVetter().equals(vetUserId + "-" + codigo))
                         .findFirst()
                         .orElseThrow(NoClassDefFoundError::new);
 

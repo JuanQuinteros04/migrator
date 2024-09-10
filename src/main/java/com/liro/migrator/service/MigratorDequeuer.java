@@ -3,6 +3,7 @@ package com.liro.migrator.service;
 import com.liro.migrator.dtos.MigratorRequest;
 import com.liro.migrator.dtos.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -28,6 +29,7 @@ public class MigratorDequeuer {
         this.migratorQueue = migratorQueue;
     }
 
+    @Async
     @PostConstruct
     public void dequeue() throws IOException {
 

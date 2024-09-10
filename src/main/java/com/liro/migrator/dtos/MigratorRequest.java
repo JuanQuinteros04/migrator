@@ -11,8 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class MigratorRequest {
 
-        MultipartFile usersFile;
-        MultipartFile animalsFile;
+        byte[] usersFile;
+        byte[] animalsFile;
         private Long vetUserId;
 
 }

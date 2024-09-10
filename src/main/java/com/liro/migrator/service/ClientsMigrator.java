@@ -28,12 +28,12 @@ public class ClientsMigrator {
     @Autowired
     FeignUserClient feignUserClient;
 
-    public List<UserResponse> migrate(Long vetUserId, MultipartFile file) throws IOException {
+    public List<UserResponse> migrate(Long vetUserId, byte[] file) throws IOException {
 
         List<ClientRegister> clientRegisterList = new ArrayList<>();
 
 
-        InputStream dbf = new ByteArrayInputStream(file.getBytes());;
+        InputStream dbf = new ByteArrayInputStream(file);
 
         try (DBFReader reader = new DBFReader(dbf)) {
 

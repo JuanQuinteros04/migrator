@@ -26,12 +26,12 @@ public class AnimalsMigrator {
     @Autowired
     FeignAnimalClient feignAnimalClient;
 
-    public Void migrate(Long vetUserId, MultipartFile file, List<UserResponse> userResponses) throws IOException {
+    public Void migrate(Long vetUserId, byte[] file, List<UserResponse> userResponses) throws IOException {
 
         List<AnimalDTO> animalDTOS = new ArrayList<>();
 
 
-        InputStream dbf = new ByteArrayInputStream(file.getBytes());;
+        InputStream dbf = new ByteArrayInputStream(file);
 
         try (DBFReader reader = new DBFReader(dbf)) {
 

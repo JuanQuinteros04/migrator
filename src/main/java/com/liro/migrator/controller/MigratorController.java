@@ -41,7 +41,7 @@ public class MigratorController {
 
 
         System.out.println("Llego migracion");
-        migratorQueue.add(MigratorRequest.builder().animalsFile(animalsFile).usersFile(usersFile).vetUserId(vetUserId).build());
+        migratorQueue.add(MigratorRequest.builder().animalsFile(animalsFile.getBytes()).usersFile(usersFile.getBytes()).vetUserId(vetUserId).build());
 
         return ResponseEntity.status(200).build();
     }

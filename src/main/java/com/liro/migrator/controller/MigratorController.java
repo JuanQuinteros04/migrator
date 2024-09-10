@@ -40,8 +40,7 @@ public class MigratorController {
                                              @RequestParam("vetUserId") Long vetUserId) throws IOException {
 
 
-
-
+        System.out.println("Llego migracion");
         migratorQueue.add(MigratorRequest.builder().animalsFile(animalsFile).usersFile(usersFile).vetUserId(vetUserId).build());
 
         return ResponseEntity.status(200).build();

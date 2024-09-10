@@ -4,6 +4,7 @@ import com.liro.migrator.dtos.MigratorRequest;
 import com.liro.migrator.dtos.UserResponse;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
 import java.util.Queue;
@@ -23,6 +24,7 @@ public class MigratorDequeuer {
         this.migratorQueue = migratorQueue;
     }
 
+    @PostConstruct
     public void dequeue() throws IOException {
 
         while (true){

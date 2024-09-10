@@ -3,7 +3,6 @@ package com.liro.migrator.service;
 import com.liro.migrator.dtos.MigratorRequest;
 import com.liro.migrator.dtos.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -29,22 +28,23 @@ public class MigratorDequeuer {
         this.migratorQueue = migratorQueue;
     }
 
-    @Async
     @PostConstruct
     public void dequeue() throws IOException {
 
-        System.out.println("ingreso");
-        while (true){
+        Thread backgroundThread = new Thread(() -> {
+            while (true) {
+                try {
+                    // Este método bloquea hasta que haya un elemento disponible en la cola
+                    MigratorRequest migratorRequest = migratorQueue.poll();
 
-            if(!migratorQueue.isEmpty()){
+                    List<UserResponse> users = clientsMigrator.migrate(migratorRequest.getVetUserId(), migratorRequest.getUsersFile());
+                    animalsMigrator.migrate(migratorRequest.getVetUserId(), migratorRequest.getAnimalsFile(), users);
 
-                MigratorRequest migratorRequest = migratorQueue.poll();
-
-                List<UserResponse> users =  clientsMigrator.migrate(migratorRequest.getVetUserId(), migratorRequest.getUsersFile());
-                animalsMigrator.migrate(migratorRequest.getVetUserId(), migratorRequest.getAnimalsFile(), users);
-
+                } catch (IOException e) {
+                    e.printStackTrace();  // Manejo de la excepción
+                }
             }
-        }
-
+        });
+        backgroundThread.start();
     }
 }

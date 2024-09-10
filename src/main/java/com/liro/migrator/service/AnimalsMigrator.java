@@ -45,7 +45,7 @@ public class AnimalsMigrator {
                 String especie = row.getString("Especie");
                 String raza = row.getString("Raza");
                 String sexo = row.getString("Sexo");
-                Date fechaNaci = row.getDate("Fecha_naci");
+                Date fechaNaci = row.getDate("Fecha_nac");
                 String vive = row.getString("Vive");
 
 

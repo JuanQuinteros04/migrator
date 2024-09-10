@@ -31,6 +31,7 @@ public class MigratorDequeuer {
     @PostConstruct
     public void dequeue() throws IOException {
 
+        System.out.println("ingreso");
         while (true){
 
             if(!migratorQueue.isEmpty()){

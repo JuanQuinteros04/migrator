@@ -16,10 +16,9 @@ public class MigratorDequeuer {
     @Autowired
     private final ClientsMigrator clientsMigrator;
 
-    @Autowired
+
     private final AnimalsMigrator animalsMigrator;
 
-    @Autowired
     private final Queue<MigratorRequest> migratorQueue;
 
     public MigratorDequeuer(ClientsMigrator clientsMigrator, AnimalsMigrator animalsMigrator, Queue<MigratorRequest> migratorQueue) {
@@ -33,15 +32,22 @@ public class MigratorDequeuer {
 
         Thread backgroundThread = new Thread(() -> {
             while (true) {
-                try {
-                    // Este método bloquea hasta que haya un elemento disponible en la cola
+
+                if (!migratorQueue.isEmpty()) {
                     MigratorRequest migratorRequest = migratorQueue.poll();
 
-                    List<UserResponse> users = clientsMigrator.migrate(migratorRequest.getVetUserId(), migratorRequest.getUsersFile());
-                    animalsMigrator.migrate(migratorRequest.getVetUserId(), migratorRequest.getAnimalsFile(), users);
+                    List<UserResponse> users = null;
+                    try {
+                        users = clientsMigrator.migrate(migratorRequest.getVetUserId(), migratorRequest.getUsersFile());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        animalsMigrator.migrate(migratorRequest.getVetUserId(), migratorRequest.getAnimalsFile(), users);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
-                } catch (IOException e) {
-                    e.printStackTrace();  // Manejo de la excepción
                 }
             }
         });

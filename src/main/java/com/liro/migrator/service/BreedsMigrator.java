@@ -62,10 +62,10 @@ public class BreedsMigrator {
 
     private Long typeConverter(String especie) {
         if(especie.equals("CANINO")){
-            return 3L;
+            return 2L;
         }
         else if(especie.equals("FELINO")) {
-            return 2L;
+            return 3L;
         } else return null;
     }
 }

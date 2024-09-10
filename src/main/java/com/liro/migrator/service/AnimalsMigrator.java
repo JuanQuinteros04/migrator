@@ -49,7 +49,7 @@ public class AnimalsMigrator {
                 String raza = row.getString("Raza");
                 String sexo = row.getString("Sexo");
                 Date fechaNaci = row.getDate("Fecha_nac");
-                String vive = row.getString("Vive");
+                Boolean vive = row.getBoolean("Vive");
 
 
                 //Podría usarse para filtrar que usuarios migrar
@@ -65,7 +65,7 @@ public class AnimalsMigrator {
                 AnimalDTO animalDTO = AnimalDTO.builder()
                         .name(nombre)
                         .surname(user.getSurname())
-                        .death(isDeathConverter(vive))
+                        .death(!vive)
                         .sex(sexConverter(sexo))
                         .birthDate(fechaNaci)
                         .breed(raza)

@@ -36,7 +36,7 @@ public class BreedsMigrator {
 
             while (row != null) {
 
-                String nombre = row.getString("Nombre");
+                String nombre = row.getString("Raza");
                 String especie = row.getString("Especie");
 
 

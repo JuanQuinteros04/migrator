@@ -1,6 +1,5 @@
 package com.csv;
 
-import com.csv.prueba.ConMemo;
 import com.csv.prueba.PruebaDBFClients;
 import com.csv.prueba.PruebaDBFComun;
 import com.csv.prueba.PruebaDBFPacientes;

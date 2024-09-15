@@ -13,6 +13,9 @@ public class MigratorRequest {
 
         byte[] usersFile;
         byte[] animalsFile;
+        byte[] clinicaFile;
+        byte[] clinicaFileFTP;
+
         private Long vetUserId;
 
 }

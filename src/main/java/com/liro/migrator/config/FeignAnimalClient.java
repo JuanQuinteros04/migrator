@@ -1,6 +1,7 @@
 package com.liro.migrator.config;
 
 import com.liro.migrator.dtos.AnimalDTO;
+import com.liro.migrator.dtos.AnimalMigrationResponse;
 import com.liro.migrator.dtos.BreedDTO;
 import com.liro.migrator.dtos.ClientRegister;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -16,8 +17,8 @@ import java.util.List;
 public interface FeignAnimalClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/animals/migrate")
-    ResponseEntity<Void> createAnimals(@RequestBody List<AnimalDTO> animalDTOS,
-                                       @RequestParam("vetUserId") Long vetUserId);
+    ResponseEntity<List<AnimalMigrationResponse>> createAnimals(@RequestBody List<AnimalDTO> animalDTOS,
+                                                                @RequestParam("vetUserId") Long vetUserId);
 
     @RequestMapping(method = RequestMethod.POST, value = "/breeds")
     ResponseEntity<Void> createBreeds(@RequestBody List<BreedDTO> breedDTOS);

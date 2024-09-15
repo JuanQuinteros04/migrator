@@ -4,10 +4,7 @@ import com.linuxense.javadbf.DBFReader;
 import com.linuxense.javadbf.DBFRow;
 import com.liro.migrator.config.FeignAnimalClient;
 import com.liro.migrator.config.FeignUserClient;
-import com.liro.migrator.dtos.AddressDTO;
-import com.liro.migrator.dtos.AnimalDTO;
-import com.liro.migrator.dtos.ClientRegister;
-import com.liro.migrator.dtos.UserResponse;
+import com.liro.migrator.dtos.*;
 import com.liro.migrator.dtos.enums.Sex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,7 +23,7 @@ public class AnimalsMigrator {
     @Autowired
     FeignAnimalClient feignAnimalClient;
 
-    public Void migrate(Long vetUserId, byte[] file, List<UserResponse> userResponses) throws IOException {
+    public List<AnimalMigrationResponse> migrate(Long vetUserId, byte[] file, List<UserResponse> userResponses) throws IOException {
 
         List<AnimalDTO> animalDTOS = new ArrayList<>();
 
@@ -66,6 +63,7 @@ public class AnimalsMigrator {
                         .name(nombre)
                         .surname(user.getSurname())
                         .death(!vive)
+                        .vetterCode(codigoPaciente)
                         .sex(sexConverter(sexo))
                         .birthDate(fechaNaci)
                         .breed(raza)
@@ -78,9 +76,7 @@ public class AnimalsMigrator {
             }
         }
 
-        feignAnimalClient.createAnimals(animalDTOS, vetUserId);
-
-        return null;
+        return feignAnimalClient.createAnimals(animalDTOS, vetUserId).getBody();
     }
 
 

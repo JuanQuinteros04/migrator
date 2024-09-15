@@ -27,4 +27,5 @@ public class AnimalDTO {
     private Sex sex;
     private String breed;
     private Long ownerUserId;
+    private String vetterCode;
 }

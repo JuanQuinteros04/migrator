@@ -32,12 +32,21 @@ public class MigratorController {
     @PostMapping(value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> migrateUsers(@RequestPart(required = true, value = "users") MultipartFile usersFile,
                                              @RequestPart(required = true, value = "animals") MultipartFile animalsFile,
+                                             @RequestPart(required = true, value = "clinica.dbf") MultipartFile clinicaDbf,
+                                             @RequestPart(required = true, value = "clinica.ftp") MultipartFile clinicaFtp,
+
 
                                              @RequestParam("vetUserId") Long vetUserId) throws IOException {
 
 
         System.out.println("Llego migracion");
-        migratorQueue.add(MigratorRequest.builder().animalsFile(animalsFile.getBytes()).usersFile(usersFile.getBytes()).vetUserId(vetUserId).build());
+        migratorQueue.add(MigratorRequest.builder()
+                .animalsFile(animalsFile.getBytes())
+                .usersFile(usersFile.getBytes())
+                .clinicaFile(clinicaDbf.getBytes())
+                .clinicaFileFTP(clinicaFtp.getBytes())
+
+                .vetUserId(vetUserId).build());
 
         return ResponseEntity.status(200).build();
     }

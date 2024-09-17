@@ -43,10 +43,7 @@ public class RestTemplateConfig {
     public String AUTH_SERVER = "https://api.liro.pet/api/security";
 
 
-    @Bean
-    public Queue<MigratorRequest> migratorQueue(){
-        return new LinkedBlockingDeque<MigratorRequest>();
-    }
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

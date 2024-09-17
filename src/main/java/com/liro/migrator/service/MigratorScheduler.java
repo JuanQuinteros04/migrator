@@ -85,7 +85,7 @@ public class MigratorScheduler {
 
                 String fileName = zipEntry.getName();
                 byte[] fileContent = IOUtils.toByteArray(zis);
-
+                System.out.println(fileName);
                 if (fileName.equalsIgnoreCase("clientes.dbf")) {
                     usersFile = fileContent;
                 } else if (fileName.equalsIgnoreCase("pacientes.dbf")) {
@@ -109,6 +109,20 @@ public class MigratorScheduler {
                 clinicaMigrator.migrate(vetUserId, clinicaDbfFile, clinicaFtpFile, animals);
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }else{
+            System.out.println("File not found: ");
+            if(usersFile == null){
+                System.out.println("usersFile");
+            }
+            if(animalsFile == null){
+                System.out.println("animalsFile");
+            }
+            if(clinicaDbfFile == null){
+                System.out.println("clinicaDbfFile");
+            }
+            if(clinicaFtpFile == null){
+                System.out.println("clinicaFtpFile");
             }
         }
     }

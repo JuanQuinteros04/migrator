@@ -21,11 +21,9 @@ import java.util.zip.ZipInputStream;
 @RestController
 public class MigratorController {
 
-    private final Queue<MigratorRequest> migratorQueue;
     private final BreedsMigrator breedsMigrator;
 
-    public MigratorController(Queue<MigratorRequest> migratorQueue, BreedsMigrator breedsMigrator) {
-        this.migratorQueue = migratorQueue;
+    public MigratorController( BreedsMigrator breedsMigrator) {
         this.breedsMigrator = breedsMigrator;
     }
 

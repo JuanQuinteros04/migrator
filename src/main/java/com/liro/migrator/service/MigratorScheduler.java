@@ -43,6 +43,7 @@ public class MigratorScheduler {
         File[] files = folder.listFiles((dir, name) -> name.endsWith(".zip"));
 
         if (files == null) {
+            System.out.println("Not files found");
             return;
         }
 
@@ -51,6 +52,7 @@ public class MigratorScheduler {
             if (processedFiles.contains(file.getName())) {
                 continue;
             }
+            System.out.printf("File found in: " + file.getName());
 
             Long vetUserId = extractVetUserIdFromFileName(file.getName());
 
@@ -79,6 +81,8 @@ public class MigratorScheduler {
             ZipEntry zipEntry;
 
             while ((zipEntry = zis.getNextEntry()) != null) {
+                System.out.printf("Ingreso a leer");
+
                 String fileName = zipEntry.getName();
                 byte[] fileContent = IOUtils.toByteArray(zis);
 
@@ -97,6 +101,7 @@ public class MigratorScheduler {
         }
 
         if (usersFile != null && animalsFile != null && clinicaDbfFile != null && clinicaFtpFile != null) {
+            System.out.printf("Files found");
 
             try {
                 users = clientsMigrator.migrate(vetUserId, usersFile);

@@ -102,7 +102,15 @@ public class ClinicaMigrator {
                     .build();
 
             consultationDTO.setLocalDate(fecha!=null? LocalDate.parse(fecha, formatoFecha) : null);
-            consultationDTO.setWeight(peso!=null?Double.valueOf(peso): null);
+
+
+            if(peso!=null){
+                try {
+                    consultationDTO.setWeight(Double.valueOf(peso));
+                }catch (Exception ex){
+                    System.out.printf("Peso invalido: " + peso);
+                }
+            }
             consultationDTOS.add(consultationDTO);
         }
     }

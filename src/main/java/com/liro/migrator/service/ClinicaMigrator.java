@@ -88,22 +88,21 @@ public class ClinicaMigrator {
             // Extraer el peso si existe
             String pesoRegex = "(?:Peso|peso): ([\\d,\\.\\s]+kg)";
             Matcher pesoMatcher = Pattern.compile(pesoRegex, Pattern.CASE_INSENSITIVE).matcher(section);
-            String peso = pesoMatcher.find() ? pesoMatcher.group(1).trim() : "No encontrado";
+            String peso = pesoMatcher.find() ? pesoMatcher.group(1).trim() : null;
 
             // El resto del texto se considera la descripción
             String descriptionRegex = "(?s)Fecha: \\d{2}/\\d{2}/\\d{4}.*?Atendido Por: [^\\n]+\\n(.*)";
             Matcher descriptionMatcher = Pattern.compile(descriptionRegex).matcher(section);
-            String description = descriptionMatcher.find() ? descriptionMatcher.group(1).trim() : "No encontrada";
+            String description = descriptionMatcher.find() ? descriptionMatcher.group(1).trim() : null;
 
 
             ConsultationDTO consultationDTO = ConsultationDTO.builder()
                     .animalId(animalMigrationResponse.getId())
-                    .weight(Double.valueOf(peso))
                     .details(description)
                     .build();
 
             consultationDTO.setLocalDate(fecha!=null? LocalDate.parse(fecha, formatoFecha) : null);
-
+            consultationDTO.setWeight(peso!=null?Double.valueOf(peso): null);
             consultationDTOS.add(consultationDTO);
         }
     }

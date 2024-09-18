@@ -61,11 +61,12 @@ public class ClientsMigrator {
 
 
                 //Podría usarse para filtrar que usuarios migrar
-                Date ultVez = row.getDate("Ultima_ves");
+                Date ultVez = row.getDate("Ultimavez");
 
 
 
                 if (ultVez != null) {
+                    System.out.println("paso !null");
                     // Convertir Date a LocalDate
                     LocalDate fechaUltimaVez = ultVez.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     LocalDate fechaActual = LocalDate.now();
@@ -74,6 +75,8 @@ public class ClientsMigrator {
                     long diferenciaEnAnios = ChronoUnit.YEARS.between(fechaUltimaVez, fechaActual);
 
                     if (diferenciaEnAnios < 2) {
+                        System.out.println("cargaa");
+
                         AddressDTO addressDTO = AddressDTO.builder()
                                 .city(provincia)
                                 .country("Argentina")

@@ -13,9 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Component
@@ -54,25 +58,27 @@ public class AnimalsMigrator {
                 Date fechaalta = row.getDate("Fechaalta");
 
 
-                UserResponse user  = userResponses.stream()
+                Optional<UserResponse> user  = userResponses.stream()
                         .filter(userResponse -> userResponse.getCodigoVetter().equals(vetUserId + "-" + codigo))
-                        .findFirst()
-                        .orElseThrow(NoClassDefFoundError::new);
+                        .findFirst();
 
-                AnimalDTO animalDTO = AnimalDTO.builder()
-                        .name(nombre)
-                        .surname(user.getSurname())
-                        .death(!vive)
-                        .vetterCode(codigoPaciente)
-                        .sex(sexConverter(sexo))
-                        .birthDate(fechaNaci)
-                        .breed(raza)
-                        .ownerUserId(user.getId())
-                        .build();
+                if(user.isPresent() && vive){
+                    AnimalDTO animalDTO = AnimalDTO.builder()
+                            .name(nombre)
+                            .surname(user.get().getSurname())
+                            .death(!vive)
+                            .vetterCode(codigoPaciente)
+                            .sex(sexConverter(sexo))
+                            .birthDate(fechaNaci)
+                            .breed(raza)
+                            .ownerUserId(user.get().getId())
+                            .build();
 
-                animalDTOS.add(animalDTO);
+                    animalDTOS.add(animalDTO);
 
-                row = reader.nextRow();
+                    row = reader.nextRow();
+                }
+
             }
         }
 

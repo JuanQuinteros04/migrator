@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,19 +42,24 @@ public class ClinicaMigrator {
                 FileUtils.writeByteArrayToFile(new File("FTP." + vetUserId), clinicaFtp);
 
                 reader.setMemoFile((new File("FTP." + vetUserId)));
+
                 DBFRow row = reader.nextRow();
 
+                int i = 0;
                 while (row != null) {
+                    System.out.println("Parsing " + i + "  of " + reader.getRecordCount());
                     String codigoPaciente = row.getString("Codigopaci");
 
-                    AnimalMigrationResponse animal = animalResponses.stream()
+                    Optional<AnimalMigrationResponse> animal = animalResponses.stream()
                             .filter(animalMigrationResponse -> animalMigrationResponse.getVetterCode().equals(vetUserId + "-" + codigoPaciente))
-                            .findFirst()
-                            .orElseThrow(NoClassDefFoundError::new);
+                            .findFirst();
 
-                    parseMedicalRecords(row.getString("DESCRIP"), consultationDTOS, animal);
+                    if(animal.isPresent()){
+                        parseMedicalRecords(row.getString("DESCRIP"), consultationDTOS, animal.get());
 
-                    row = reader.nextRow();
+                        row = reader.nextRow();
+                    }
+
                 }
             } catch (IOException | ParseException e) {
                 throw new RuntimeException(e);
@@ -66,8 +72,6 @@ public class ClinicaMigrator {
 
     private void parseMedicalRecords(String input, List<ConsultationDTO> consultationDTOS, AnimalMigrationResponse animalMigrationResponse) throws ParseException {
 
-
-        // Separar las secciones del texto usando "******"
         String[] sections = input.split("\\*{6}");
         for (String section : sections) {
             if (section.trim().isEmpty()) {
@@ -88,7 +92,7 @@ public class ClinicaMigrator {
             // Extraer el peso si existe
             String pesoRegex = "(?:Peso|peso): ([\\d,\\.\\s]+kg)";
             Matcher pesoMatcher = Pattern.compile(pesoRegex, Pattern.CASE_INSENSITIVE).matcher(section);
-            String peso = pesoMatcher.find() ? pesoMatcher.group(1).trim() : null;
+            String peso = pesoMatcher.find() ? pesoMatcher.group(1).replaceAll("\\s+", "").trim() : null;
 
             // El resto del texto se considera la descripción
             String descriptionRegex = "(?s)Fecha: \\d{2}/\\d{2}/\\d{4}.*?Atendido Por: [^\\n]+\\n(.*)";

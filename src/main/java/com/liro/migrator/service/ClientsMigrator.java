@@ -17,7 +17,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -58,29 +61,42 @@ public class ClientsMigrator {
 
 
                 //Podría usarse para filtrar que usuarios migrar
-                String ultVez = row.getString("Ultimavez");
+                Date ultVez = row.getDate("Ultimavez");
 
 
-                AddressDTO addressDTO = AddressDTO.builder()
-                        .city(provincia)
-                        .country("Argentina")
-                        .location(localidad)
-                        .addressLine1(direccion)
-                        .postalCode(codPostal)
-                        .build();
 
-                ClientRegister clientRegister = ClientRegister.builder()
-                        .name(nombre)
-                        .phoneNumber(telefono)
-                        .saldo(Double.valueOf(saldo))
-                        .email(email)
-                        .address(addressDTO)
-                        .codigo(codigo)
-                        .build();
+                if (ultVez != null) {
+                    // Convertir Date a LocalDate
+                    LocalDate fechaUltimaVez = ultVez.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    LocalDate fechaActual = LocalDate.now();
 
-                clientRegisterList.add(clientRegister);
+                    // Calcular la diferencia en años
+                    long diferenciaEnAnios = ChronoUnit.YEARS.between(fechaUltimaVez, fechaActual);
 
-                row = reader.nextRow();
+                    if (diferenciaEnAnios < 2) {
+                        AddressDTO addressDTO = AddressDTO.builder()
+                                .city(provincia)
+                                .country("Argentina")
+                                .location(localidad)
+                                .addressLine1(direccion)
+                                .postalCode(codPostal)
+                                .build();
+
+                        ClientRegister clientRegister = ClientRegister.builder()
+                                .name(nombre)
+                                .phoneNumber(telefono)
+                                .saldo(Double.valueOf(saldo))
+                                .email(email)
+                                .address(addressDTO)
+                                .codigo(codigo)
+                                .build();
+
+                        clientRegisterList.add(clientRegister);
+
+                        row = reader.nextRow();
+                    }
+                }
+
             }
         }
 

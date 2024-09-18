@@ -97,9 +97,9 @@ public class ClientsMigrator {
 
                         clientRegisterList.add(clientRegister);
 
-                        row = reader.nextRow();
                     }
                 }
+                row = reader.nextRow();
 
             }
         }

@@ -47,7 +47,7 @@ public class ClinicaMigrator {
 
                 int i = 0;
                 while (row != null) {
-                    System.out.println("Parsing " + i + "  of " + reader.getRecordCount());
+                    System.out.println("Parsing " + i++ + "  of " + reader.getRecordCount());
                     String codigoPaciente = row.getString("Codigopaci");
 
                     Optional<AnimalMigrationResponse> animal = animalResponses.stream()

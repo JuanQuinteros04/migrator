@@ -77,9 +77,8 @@ public class ClinicaMigrator {
             // Extraer la fecha
             String fechaRegex = "Fecha: (\\d{2}/\\d{2}/\\d{4})";
             Matcher fechaMatcher = Pattern.compile(fechaRegex).matcher(section);
-            String fecha = fechaMatcher.find() ? fechaMatcher.group(1) : "No encontrada";
+            String fecha = fechaMatcher.find() ? fechaMatcher.group(1) : null;
             DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate fechaDate = LocalDate.parse(fecha, formatoFecha);
 
             // Extraer el atendido por
             String atendidoPorRegex = "Atendido Por: ([^\\n]+)";
@@ -100,9 +99,10 @@ public class ClinicaMigrator {
             ConsultationDTO consultationDTO = ConsultationDTO.builder()
                     .animalId(animalMigrationResponse.getId())
                     .weight(Double.valueOf(peso))
-                    .localDate(fechaDate)
                     .details(description)
                     .build();
+
+            consultationDTO.setLocalDate(fecha!=null? LocalDate.parse(fecha, formatoFecha) : null);
 
             consultationDTOS.add(consultationDTO);
         }

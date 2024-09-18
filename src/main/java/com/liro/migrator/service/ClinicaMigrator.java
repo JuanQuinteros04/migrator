@@ -57,9 +57,9 @@ public class ClinicaMigrator {
                     if(animal.isPresent()){
                         parseMedicalRecords(row.getString("DESCRIP"), consultationDTOS, animal.get());
 
-                        row = reader.nextRow();
                     }
 
+                    row = reader.nextRow();
                 }
             } catch (IOException | ParseException e) {
                 throw new RuntimeException(e);

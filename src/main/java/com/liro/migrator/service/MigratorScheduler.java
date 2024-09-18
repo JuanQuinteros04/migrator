@@ -92,7 +92,7 @@ public class MigratorScheduler {
                     animalsFile = fileContent;
                 } else if (fileName.equalsIgnoreCase("clinica.dbf")) {
                     clinicaDbfFile = fileContent;
-                } else if (fileName.equalsIgnoreCase("clinica.ftp")) {
+                } else if (fileName.equalsIgnoreCase("clinica.FPT")) {
                     clinicaFtpFile = fileContent;
                 }
 

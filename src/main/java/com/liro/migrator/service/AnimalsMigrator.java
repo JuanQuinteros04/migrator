@@ -80,8 +80,9 @@ public class AnimalsMigrator {
 
                     animalDTOS.add(animalDTO);
 
-                    row = reader.nextRow();
                 }
+
+                row = reader.nextRow();
 
             }
         }

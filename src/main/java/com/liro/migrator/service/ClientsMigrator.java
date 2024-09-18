@@ -61,7 +61,7 @@ public class ClientsMigrator {
 
 
                 //Podría usarse para filtrar que usuarios migrar
-                Date ultVez = row.getDate("Ultimavez");
+                Date ultVez = row.getDate("Ultima_ves");
 
 
 

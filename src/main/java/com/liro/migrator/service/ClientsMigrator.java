@@ -66,13 +66,14 @@ public class ClientsMigrator {
 
 
                 if (ultVez != null) {
-                    System.out.println("paso !null");
                     // Convertir Date a LocalDate
                     LocalDate fechaUltimaVez = ultVez.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     LocalDate fechaActual = LocalDate.now();
 
                     // Calcular la diferencia en años
                     long diferenciaEnAnios = ChronoUnit.YEARS.between(fechaUltimaVez, fechaActual);
+
+                    System.out.println("paso !null: ultima vez: " + ultVez + ", fecha actual: " + fechaActual + ", diferencia: " + diferenciaEnAnios);
 
                     if (diferenciaEnAnios < 2) {
                         System.out.println("cargaa");

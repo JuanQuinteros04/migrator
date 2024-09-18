@@ -31,6 +31,8 @@ public class AnimalsMigrator {
 
         List<AnimalDTO> animalDTOS = new ArrayList<>();
 
+        userResponses.forEach(userResponse -> System.out.println(userResponse));
+
         InputStream dbf = new ByteArrayInputStream(file);
 
         try (DBFReader reader = new DBFReader(dbf)) {
@@ -64,7 +66,7 @@ public class AnimalsMigrator {
                     AnimalDTO animalDTO = AnimalDTO.builder()
                             .name(nombre)
                             .surname(user.get().getSurname())
-                            .death(!vive)
+                            .death(false)
                             .vetterCode(codigoPaciente)
                             .sex(sexConverter(sexo))
                             .birthDate(fechaNaci)

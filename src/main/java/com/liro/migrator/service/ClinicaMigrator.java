@@ -84,7 +84,7 @@ public class ClinicaMigrator {
             String fecha = fechaMatcher.find() ? fechaMatcher.group(1) : null;
             DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-            // Extraer el atendido por
+           /* // Extraer el atendido por
             String atendidoPorRegex = "Atendido Por: ([^\\n]+)";
             Matcher atendidoPorMatcher = Pattern.compile(atendidoPorRegex).matcher(section);
             String atendidoPor = atendidoPorMatcher.find() ? atendidoPorMatcher.group(1).trim() : "No encontrado";
@@ -92,7 +92,7 @@ public class ClinicaMigrator {
             // Extraer el peso si existe
             String pesoRegex = "(?:Peso|peso): ([\\d,\\.\\s]+kg)";
             Matcher pesoMatcher = Pattern.compile(pesoRegex, Pattern.CASE_INSENSITIVE).matcher(section);
-            String peso = pesoMatcher.find() ? pesoMatcher.group(1).replaceAll("\\s+", "").trim() : null;
+            String peso = pesoMatcher.find() ? pesoMatcher.group(1).replaceAll("\\s+", "").trim() : null;*/
 
             // El resto del texto se considera la descripción
             String descriptionRegex = "(?s)Fecha: \\d{2}/\\d{2}/\\d{4}.*?Atendido Por: [^\\n]+\\n(.*)";
@@ -107,7 +107,7 @@ public class ClinicaMigrator {
 
             consultationDTO.setLocalDate(fecha!=null? LocalDate.parse(fecha, formatoFecha) : null);
 
-
+/*
             if(peso!=null){
                 try {
                     consultationDTO.setWeight(Double.valueOf(peso));
@@ -115,6 +115,8 @@ public class ClinicaMigrator {
                     System.out.printf("Peso invalido: " + peso);
                 }
             }
+
+ */
             consultationDTOS.add(consultationDTO);
         }
     }

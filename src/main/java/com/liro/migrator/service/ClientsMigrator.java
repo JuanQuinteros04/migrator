@@ -60,19 +60,19 @@ public class ClientsMigrator {
                 String codigo = row.getString("Codigo");
 
 
-                //Podría usarse para filtrar que usuarios migrar
+               //Podría usarse para filtrar que usuarios migrar
                 Date ultVez = row.getDate("Ultimavez");
 
 
 
-                if (ultVez != null) {
+              //  if (ultVez != null) {
                     // Convertir Date a LocalDate
                     LocalDate fechaUltimaVez = ultVez.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     LocalDate fechaActual = LocalDate.now();
 
                     long diferenciaEnAnios = ChronoUnit.YEARS.between(fechaUltimaVez, fechaActual);
 
-                    if (diferenciaEnAnios < 2) {
+                //    if (diferenciaEnAnios < 2) {
 
                         AddressDTO addressDTO = AddressDTO.builder()
                                 .city(provincia)
@@ -93,8 +93,8 @@ public class ClientsMigrator {
 
                         clientRegisterList.add(clientRegister);
 
-                    }
-                }
+//                    }
+  //              }
                 row = reader.nextRow();
 
             }

@@ -31,7 +31,6 @@ public class AnimalsMigrator {
 
         List<AnimalDTO> animalDTOS = new ArrayList<>();
 
-        userResponses.forEach(userResponse -> System.out.println(userResponse));
 
         InputStream dbf = new ByteArrayInputStream(file);
 
@@ -62,11 +61,9 @@ public class AnimalsMigrator {
                         .filter(userResponse -> userResponse.getCodigoVetter().equals(vetUserId + "-" + codigo))
                         .findFirst();
 
-                System.out.println("pre ingresa");
 
                 if(user.isPresent() && vive){
 
-                    System.out.printf("Ingresa");
                     AnimalDTO animalDTO = AnimalDTO.builder()
                             .name(nombre)
                             .surname(user.get().getSurname())

@@ -21,12 +21,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 
 @Component
 public class ClinicaMigrator {
     @Autowired
     FeignConsultationsClient feignConsultationsClient;
+    private static final Pattern FECHA_PATTERN = Pattern.compile("Fecha: (\\d{2}/\\d{2}/\\d{4})");
+    private static final Pattern DESCRIPTION_PATTERN = Pattern.compile("(?s)Fecha: \\d{2}/\\d{2}/\\d{4}.*?Atendido Por: [^\\n]+\\n(.*)");
 
     public Void migrate(Long vetUserId, byte[] clinicaDbf, byte[] clinicaFtp, List<AnimalMigrationResponse> animalResponses) throws IOException {
 
@@ -44,6 +47,7 @@ public class ClinicaMigrator {
                 reader.setMemoFile((new File("FTP." + vetUserId)));
 
                 DBFRow row = reader.nextRow();
+
 
                 int i = 0;
                 while (row != null) {
@@ -73,14 +77,11 @@ public class ClinicaMigrator {
     private void parseMedicalRecords(String input, List<ConsultationDTO> consultationDTOS, AnimalMigrationResponse animalMigrationResponse) throws ParseException {
 
         String[] sections = input.split("\\*{6}");
-        for (String section : sections) {
-            if (section.trim().isEmpty()) {
-                continue; // Ignorar secciones vacías
-            }
+        Stream.of(sections).parallel().forEach(section -> {
 
             // Extraer la fecha
-            String fechaRegex = "Fecha: (\\d{2}/\\d{2}/\\d{4})";
-            Matcher fechaMatcher = Pattern.compile(fechaRegex).matcher(section);
+            //String fechaRegex = "Fecha: (\\d{2}/\\d{2}/\\d{4})";
+            Matcher fechaMatcher = FECHA_PATTERN.matcher(section);
             String fecha = fechaMatcher.find() ? fechaMatcher.group(1) : null;
             DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -95,8 +96,8 @@ public class ClinicaMigrator {
             String peso = pesoMatcher.find() ? pesoMatcher.group(1).replaceAll("\\s+", "").trim() : null;*/
 
             // El resto del texto se considera la descripción
-            String descriptionRegex = "(?s)Fecha: \\d{2}/\\d{2}/\\d{4}.*?Atendido Por: [^\\n]+\\n(.*)";
-            Matcher descriptionMatcher = Pattern.compile(descriptionRegex).matcher(section);
+            //String descriptionRegex = "(?s)Fecha: \\d{2}/\\d{2}/\\d{4}.*?Atendido Por: [^\\n]+\\n(.*)";
+            Matcher descriptionMatcher = DESCRIPTION_PATTERN.matcher(section);
             String description = descriptionMatcher.find() ? descriptionMatcher.group(1).trim() : null;
 
 
@@ -118,6 +119,7 @@ public class ClinicaMigrator {
 
  */
             consultationDTOS.add(consultationDTO);
-        }
+
+        });
     }
 }

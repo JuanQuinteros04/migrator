@@ -31,23 +31,20 @@ public class ClinicaMigrator {
     private static final Pattern FECHA_PATTERN = Pattern.compile("Fecha: (\\d{2}/\\d{2}/\\d{4})");
     private static final Pattern DESCRIPTION_PATTERN = Pattern.compile("(?s)Fecha: \\d{2}/\\d{2}/\\d{4}.*?Atendido Por: [^\\n]+\\n(.*)");
 
-    public Void migrate(Long vetUserId, byte[] clinicaDbf, byte[] clinicaFtp, List<AnimalMigrationResponse> animalResponses) throws IOException {
+    public Void migrate(Long vetUserId, byte[] clinicaDbf, File clinicaFtp, List<AnimalMigrationResponse> animalResponses) throws IOException {
 
         List<ConsultationDTO> consultationDTOS = new ArrayList<>();
 
-        animalResponses.forEach(animalResponse -> {
 
             InputStream dbf = new ByteArrayInputStream(clinicaDbf);
 
 
             try (DBFReader reader = new DBFReader(dbf)) {
 
-                FileUtils.writeByteArrayToFile(new File("FTP." + vetUserId), clinicaFtp);
 
-                reader.setMemoFile((new File("FTP." + vetUserId)));
+                reader.setMemoFile(clinicaFtp);
 
                 DBFRow row = reader.nextRow();
-
 
                 int i = 0;
                 while (row != null) {
@@ -65,11 +62,11 @@ public class ClinicaMigrator {
 
                     row = reader.nextRow();
                 }
-            } catch (IOException | ParseException e) {
+            } catch ( ParseException e) {
                 throw new RuntimeException(e);
             }
+
             feignConsultationsClient.createConsultations(consultationDTOS, vetUserId);
-        });
 
         return null;
     }

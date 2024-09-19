@@ -3,6 +3,7 @@ package com.liro.migrator.service;
 import com.liro.migrator.dtos.AnimalMigrationResponse;
 import com.liro.migrator.dtos.MigratorRequest;
 import com.liro.migrator.dtos.UserResponse;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -71,7 +72,7 @@ public class MigratorScheduler {
         byte[] usersFile = null;
         byte[] animalsFile = null;
         byte[] clinicaDbfFile = null;
-        byte[] clinicaFtpFile = null;
+        File clinicaFtpFile = null;
 
 
         List<UserResponse> users;
@@ -93,8 +94,8 @@ public class MigratorScheduler {
                 } else if (fileName.equalsIgnoreCase("clinica.dbf")) {
                     clinicaDbfFile = fileContent;
                 } else if (fileName.equalsIgnoreCase("clinica.FPT")) {
-                    clinicaFtpFile = fileContent;
-                }
+                    clinicaFtpFile = new File("/tmp/migrator/clinica_" + vetUserId + ".FPT");
+                    FileUtils.writeByteArrayToFile(clinicaFtpFile, fileContent);                }
 
                 zis.closeEntry();
             }

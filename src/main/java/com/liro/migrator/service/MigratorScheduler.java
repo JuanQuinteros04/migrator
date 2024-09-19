@@ -38,7 +38,7 @@ public class MigratorScheduler {
         this.processedFiles = processedFiles;
     }
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 6000000)
     public void processFiles() throws IOException {
         File folder = new File(DIRECTORY_PATH);
         File[] files = folder.listFiles((dir, name) -> name.endsWith(".zip"));

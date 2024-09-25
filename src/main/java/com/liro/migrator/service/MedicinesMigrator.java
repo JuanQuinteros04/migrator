@@ -45,7 +45,7 @@ public class MedicinesMigrator {
                         .presentationName(row[fields.get("Presentación")])
                         .animalType(animalTypeConverter(row[fields.get("Uso en")]))
                         .dosesUnity(row[fields.get("Unidad Dosis")])
-                        .commercialName(row[fields.get("Nombre Comercial")])
+                        .commercialName(row[fields.get("Nombre comercial")])
                         .formalName(row[fields.get("Nombre científico")])
                         .onlyVetUse(onlyVetUseConverter(row[fields.get("Uso")]))
                         .medicineGroups(medicinesGroupsConverter(row[fields.get("SubTipo")]))

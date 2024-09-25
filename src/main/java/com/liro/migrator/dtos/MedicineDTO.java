@@ -19,7 +19,6 @@ public class MedicineDTO {
     private Boolean onlyVetUse;
     private Boolean needPrescription;
     private String conservation;
-    private Long content;
     private String dosesUnity;
     private AnimalType animalType;
 

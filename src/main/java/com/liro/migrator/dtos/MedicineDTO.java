@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,6 +26,6 @@ public class MedicineDTO {
 
     private String brandName;
     private Long medicineTypeId;
-    private List<String> medicineGroups;
+    private Set<String> medicineGroups;
     private String presentationName;
 }

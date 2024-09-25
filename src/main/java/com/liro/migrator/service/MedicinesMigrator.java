@@ -96,12 +96,12 @@ public class MedicinesMigrator {
 
     private Boolean onlyVetUseConverter(String onlyVetUse) {
 
-        return onlyVetUse.equals("Uso Veterinario") ? Boolean.TRUE : Boolean.FALSE;
+        return onlyVetUse.equals("Uso veterinario") ? Boolean.TRUE : Boolean.FALSE;
     }
 
-    private List<String> medicinesGroupsConverter(String medicineGroup) {
+    private Set<String> medicinesGroupsConverter(String medicineGroup) {
 
-        List<String> medicinesGroups = new ArrayList<>();
+        Set<String> medicinesGroups = new HashSet<>();
         medicinesGroups.add(medicineGroup);
 
         polivalentes.forEach(polivalente -> {

@@ -2,6 +2,7 @@ package com.liro.migrator.controller;
 
 import com.liro.migrator.service.BreedsMigrator;
 import com.liro.migrator.service.MedicinesMigrator;
+import com.opencsv.exceptions.CsvException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,7 @@ public class MigratorController {
     }
 
     @PostMapping(value = "/medicines", produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Void> migrateMedicines(@RequestPart(required = true) MultipartFile file) throws IOException {
+    public ResponseEntity<Void> migrateMedicines(@RequestPart(required = true) MultipartFile file) throws IOException, CsvException {
         medicinesMigrator.migrateMedicines(file);
 
         return ResponseEntity.status(200).build();

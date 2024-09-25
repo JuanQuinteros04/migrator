@@ -1,11 +1,14 @@
 package com.liro.migrator.service;
 
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.liro.migrator.config.FeignAnimalClient;
+import com.liro.migrator.config.FeignMedicineClient;
 import com.liro.migrator.dtos.MedicineDTO;
 import com.liro.migrator.dtos.enums.AnimalType;
 import com.liro.migrator.dtos.enums.Sex;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +19,8 @@ import java.util.*;
 @Component
 public class MedicinesMigrator {
 
+    @Autowired
+    FeignMedicineClient feignMedicineClient;
     private static final CsvMapper mapper = new CsvMapper();
     private static final List<String> polivalentes = Arrays.asList("Quíntuple", "Cuádruple", "Triple", "Doble");
 
@@ -54,7 +59,7 @@ public class MedicinesMigrator {
 
             }
 
-            medicineDTOS.forEach(System.out::println);
+            feignMedicineClient.createMedicines(medicineDTOS);
 
         } catch (Exception ex) {
             ex.printStackTrace();

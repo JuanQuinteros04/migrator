@@ -49,7 +49,7 @@ public class MedicinesMigrator {
                         .formalName(row[fields.get("Nombre científico")])
                         .onlyVetUse(onlyVetUseConverter(row[fields.get("Uso")]))
                         .medicineGroups(medicinesGroupsConverter(row[fields.get("SubTipo")]))
-                        .needPrescription(needPrescriptionConverter(row[fields.get("Tipo de Venta")]))
+                        .needPrescription(needPrescriptionConverter(row[fields.get("Tipo de venta")]))
                         .build());
 
             }

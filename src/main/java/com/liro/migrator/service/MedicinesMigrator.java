@@ -102,15 +102,17 @@ public class MedicinesMigrator {
     private Set<String> medicinesGroupsConverter(String medicineGroup) {
 
         Set<String> medicinesGroups = new HashSet<>();
-        medicinesGroups.add(medicineGroup);
 
-        polivalentes.forEach(polivalente -> {
-            if (polivalente.contains(medicineGroup)) {
-                medicinesGroups.add("polivalent");
+        if(!Objects.equals(medicineGroup, "")){
+            medicinesGroups.add(medicineGroup);
 
-            }
-        });
+            polivalentes.forEach(polivalente -> {
+                if (polivalente.contains(medicineGroup)) {
+                    medicinesGroups.add("polivalent");
 
+                }
+            });
+        }
         return medicinesGroups;
     }
 }

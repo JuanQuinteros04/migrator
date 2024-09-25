@@ -37,7 +37,7 @@ public class MedicinesMigrator {
         CsvToBean<MedicineDTO> csvToBean = new CsvToBean<MedicineDTO>();
 
         Map<String, String> columnMapping = new HashMap<String, String>();
-        columnMapping.put("Nombre Comercial", "commercialName");
+        columnMapping.put("commercialName", "Nombre Comercial");
         columnMapping.put("Nombre científico", "formalName");
         columnMapping.put("Uso", "onlyVetUse");
         columnMapping.put("Tipo de venta", "needPrescription");

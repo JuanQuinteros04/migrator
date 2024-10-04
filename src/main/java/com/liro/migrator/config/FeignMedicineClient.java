@@ -1,9 +1,6 @@
 package com.liro.migrator.config;
 
-import com.liro.migrator.dtos.AnimalDTO;
-import com.liro.migrator.dtos.AnimalMigrationResponse;
-import com.liro.migrator.dtos.BreedDTO;
-import com.liro.migrator.dtos.MedicineDTO;
+import com.liro.migrator.dtos.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,5 +15,8 @@ public interface FeignMedicineClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/medicines/migrate")
     ResponseEntity<Void> createMedicines(@RequestBody List<MedicineDTO> medicineDTOS);
+
+    @RequestMapping(method = RequestMethod.POST, value = "/applications/migrate")
+    ResponseEntity<Void> createApplications(@RequestBody List<ApplicationDTO> applicationDTO);
 
 }

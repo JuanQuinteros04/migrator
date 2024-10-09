@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -17,6 +16,6 @@ public interface FeignMedicineClient {
     ResponseEntity<Void> createMedicines(@RequestBody List<MedicineDTO> medicineDTOS);
 
     @RequestMapping(method = RequestMethod.POST, value = "/applications/migrate")
-    ResponseEntity<Void> createApplications(@RequestBody List<ApplicationDTO> applicationDTO);
+    ResponseEntity<Void> createApplications(@RequestBody List<ApplicationRecordDTO> applicationRecordDTO);
 
 }

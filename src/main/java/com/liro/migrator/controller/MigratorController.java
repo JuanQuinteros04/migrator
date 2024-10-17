@@ -1,5 +1,6 @@
 package com.liro.migrator.controller;
 
+import com.liro.migrator.dtos.AnimalMigrationResponse;
 import com.liro.migrator.service.ApplicationsMigrator;
 import com.liro.migrator.service.BreedsMigrator;
 import com.liro.migrator.service.MedicinesMigrator;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 public class MigratorController {
@@ -45,8 +47,10 @@ public class MigratorController {
     }
 
     @PostMapping(value = "/applications", produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Void> migrateApplications(@RequestBody(required = true) MultipartFile file) throws IOException, CsvException{
-        applicationsMigrator.migrateApplications(file);
+    public ResponseEntity<Void> migrateApplications(@RequestBody(required = true) MultipartFile file,
+                                                    @RequestBody(required = true) Long vetUserId,
+                                                    @RequestBody(required = true)List<AnimalMigrationResponse> animalMigrationResponses) throws IOException, CsvException{
+        applicationsMigrator.migrateApplications(file, vetUserId, animalMigrationResponses);
 
         return ResponseEntity.status(200).build();
     }

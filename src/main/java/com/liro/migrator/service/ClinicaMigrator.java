@@ -31,7 +31,7 @@ public class ClinicaMigrator {
     private static final Pattern FECHA_PATTERN = Pattern.compile("Fecha: (\\d{2}/\\d{2}/\\d{4})");
     private static final Pattern DESCRIPTION_PATTERN = Pattern.compile("(?s)Fecha: \\d{2}/\\d{2}/\\d{4}.*?Atendido Por: [^\\n]+\\n(.*)");
 
-    public Void migrate(Long vetUserId, byte[] clinicaDbf, File clinicaFtp, List<AnimalMigrationResponse> animalResponses) throws IOException {
+    public Void migrate(Long vetClinicId, Long vetUserId, byte[] clinicaDbf, File clinicaFtp, List<AnimalMigrationResponse> animalResponses) throws IOException {
 
         List<ConsultationDTO> consultationDTOS = new ArrayList<>();
 
@@ -48,11 +48,10 @@ public class ClinicaMigrator {
 
                 int i = 0;
                 while (row != null) {
-                    System.out.println("Parsing " + i++ + "  of " + reader.getRecordCount());
                     String codigoPaciente = row.getString("Codigopaci");
 
                     Optional<AnimalMigrationResponse> animal = animalResponses.stream()
-                            .filter(animalMigrationResponse -> animalMigrationResponse.getVetterCode().equals(vetUserId + "-" + codigoPaciente))
+                            .filter(animalMigrationResponse -> animalMigrationResponse.getVetterCode().equals(vetClinicId + "-" + codigoPaciente))
                             .findFirst();
 
                     if(animal.isPresent()){
@@ -66,7 +65,7 @@ public class ClinicaMigrator {
                 throw new RuntimeException(e);
             }
 
-            feignConsultationsClient.createConsultations(consultationDTOS, vetUserId);
+            feignConsultationsClient.createConsultations(consultationDTOS, vetClinicId, vetUserId);
 
         return null;
     }

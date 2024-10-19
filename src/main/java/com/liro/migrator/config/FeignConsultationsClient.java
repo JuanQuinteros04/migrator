@@ -15,5 +15,7 @@ import java.util.List;
 public interface FeignConsultationsClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/consultations/migrate")
-    ResponseEntity<Void> createConsultations(@RequestBody List<ConsultationDTO> consultationDTOS, @RequestParam(name = "vetUserId") Long vetUserId);
+    ResponseEntity<Void> createConsultations(@RequestBody List<ConsultationDTO> consultationDTOS,
+                                             @RequestParam("vetClinicId") Long vetClinicId,
+                                             @RequestParam(name = "vetUserId") Long vetUserId);
 }

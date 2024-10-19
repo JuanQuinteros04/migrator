@@ -17,5 +17,5 @@ public interface FeignUserClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/users/clients")
     ResponseEntity<List<UserResponse>> createClients(@RequestBody List<ClientRegister> clientRegisters,
-                                                     @RequestParam("vetUserId") Long vetUserId);
+                                                     @RequestParam("vetClinicId") Long vetClinicId);
 }

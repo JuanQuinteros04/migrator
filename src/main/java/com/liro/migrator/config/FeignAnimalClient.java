@@ -18,7 +18,7 @@ public interface FeignAnimalClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/animals/migrate")
     ResponseEntity<List<AnimalMigrationResponse>> createAnimals(@RequestBody List<AnimalDTO> animalDTOS,
-                                                                @RequestParam("vetUserId") Long vetUserId);
+                                                                @RequestParam("vetClinicId") Long vetClinicId);
 
     @RequestMapping(method = RequestMethod.POST, value = "/breeds")
     ResponseEntity<Void> createBreeds(@RequestBody List<BreedDTO> breedDTOS);

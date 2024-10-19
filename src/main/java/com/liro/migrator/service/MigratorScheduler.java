@@ -55,10 +55,10 @@ public class MigratorScheduler {
             }
             System.out.printf("File found in: " + file.getName());
 
-            Long vetUserId = extractVetUserIdFromFileName(file.getName());
+            Long credentials[] = extractVetUserIdsFromFileName(file.getName());
 
             // Procesar archivo ZIP
-            processZipFile(file, vetUserId);
+            processZipFile(file, credentials[0], credentials[1]);
 
             // Mover archivo a carpeta de procesados
             moveFileToProcessedFolder(file);
@@ -68,7 +68,7 @@ public class MigratorScheduler {
         }
     }
 
-    private void processZipFile(File file, Long vetUserId) throws IOException {
+    private void processZipFile(File file, Long vetClinicId, Long vetUserId) throws IOException {
         byte[] usersFile = null;
         byte[] animalsFile = null;
         byte[] clinicaDbfFile = null;
@@ -105,9 +105,9 @@ public class MigratorScheduler {
             System.out.printf("Files found");
 
             try {
-                users = clientsMigrator.migrate(vetUserId, usersFile);
-                animals = animalsMigrator.migrate(vetUserId, animalsFile, users);
-                clinicaMigrator.migrate(vetUserId, clinicaDbfFile, clinicaFtpFile, animals);
+                users = clientsMigrator.migrate(vetClinicId, vetUserId, usersFile);
+                animals = animalsMigrator.migrate(vetClinicId, vetUserId, animalsFile, users);
+                clinicaMigrator.migrate(vetClinicId, vetUserId, clinicaDbfFile, clinicaFtpFile, animals);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -136,13 +136,22 @@ public class MigratorScheduler {
         Files.move(file.toPath(), processedDirectory.resolve(file.getName()));
     }
 
-    private Long extractVetUserIdFromFileName(String fileName) {
+    private Long[] extractVetUserIdsFromFileName(String fileName) {
         try {
-            // Extraer el número antes de la extensión .zip
-            String vetUserIdStr = fileName.replace(".zip", "");
-            return Long.parseLong(vetUserIdStr);
-        } catch (NumberFormatException e) {
-            // Si no se puede convertir el nombre en un número, retorna null
+            // Elimina la extensión .zip del nombre del archivo
+            String vetUserIdsStr = fileName.replace(".zip", "");
+
+            // Divide el nombre usando el guion para extraer los dos números
+            String[] parts = vetUserIdsStr.split("-");
+
+            // Convierte los dos valores en Long
+            Long vetClinicId = Long.parseLong(parts[0]);
+            Long vetUserId = Long.parseLong(parts[1]);
+
+            // Retorna un arreglo con los dos valores
+            return new Long[]{vetClinicId, vetUserId};
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            // Si hay algún error al convertir o dividir, retorna null
             return null;
         }
     }

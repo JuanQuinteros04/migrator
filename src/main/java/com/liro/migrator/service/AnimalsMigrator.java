@@ -27,7 +27,7 @@ public class AnimalsMigrator {
     @Autowired
     FeignAnimalClient feignAnimalClient;
 
-    public List<AnimalMigrationResponse> migrate(Long vetUserId, byte[] file, List<UserResponse> userResponses) throws IOException {
+    public List<AnimalMigrationResponse> migrate(Long vetClinicId, Long vetUserId, byte[] file, List<UserResponse> userResponses) throws IOException {
 
         List<AnimalDTO> animalDTOS = new ArrayList<>();
 
@@ -58,7 +58,7 @@ public class AnimalsMigrator {
 
 
                 Optional<UserResponse> user  = userResponses.stream()
-                        .filter(userResponse -> userResponse.getCodigoVetter().equals(vetUserId + "-" + codigo))
+                        .filter(userResponse -> userResponse.getCodigoVetter().equals(vetClinicId + "-" + codigo))
                         .findFirst();
 
 
@@ -84,7 +84,7 @@ public class AnimalsMigrator {
             }
         }
 
-        return feignAnimalClient.createAnimals(animalDTOS, vetUserId).getBody();
+        return feignAnimalClient.createAnimals(animalDTOS, vetClinicId).getBody();
     }
 
 

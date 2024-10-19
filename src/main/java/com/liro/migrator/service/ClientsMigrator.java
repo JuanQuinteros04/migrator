@@ -31,7 +31,7 @@ public class ClientsMigrator {
     @Autowired
     FeignUserClient feignUserClient;
 
-    public List<UserResponse> migrate(Long vetUserId, byte[] file) throws IOException {
+    public List<UserResponse> migrate(Long vetClinicId, Long vetUserId, byte[] file) throws IOException {
 
         List<ClientRegister> clientRegisterList = new ArrayList<>();
 
@@ -100,7 +100,7 @@ public class ClientsMigrator {
             }
         }
 
-        return feignUserClient.createClients(clientRegisterList, vetUserId).getBody();
+        return feignUserClient.createClients(clientRegisterList, vetClinicId).getBody();
 
     }
 }

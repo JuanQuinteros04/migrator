@@ -54,10 +54,10 @@ public class ApplicationsMigrator {
 
 
                     ApplicationRecordDTO applicationDTO = ApplicationRecordDTO.builder()
-                            .animalId(row[fields.get(animal)])// De donde sale? se supone que ya esta en la DB
+                          //  .animalId(row[fields.get(animal)])// De donde sale? se supone que ya esta en la DB
                             .medicineId(medicineIdConverter(row[fields.get("vacuna")]))
-                            .applicationDate(dateConverter(row[fields.get("fecha_apli")]))
-                            .endDate(dateConverter(row[fields.get("fecha_reva")]))
+                           // .applicationDate(dateConverter(row[fields.get("fecha_apli")]))
+                           // .endDate(dateConverter(row[fields.get("fecha_reva")]))
                             .build();
 
                     applicationRecordDTOS.add(applicationDTO);

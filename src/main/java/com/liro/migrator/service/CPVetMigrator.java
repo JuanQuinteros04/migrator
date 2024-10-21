@@ -31,6 +31,7 @@ public class CPVetMigrator {
 
     @Scheduled(fixedRate = 6000000)
     public void processFiles() throws IOException {
+        System.out.println("ingreso cpvet");
         File folder = new File(DIRECTORY_PATH);
         File[] files = folder.listFiles((dir, name) -> name.endsWith(".zip"));
 
@@ -39,6 +40,7 @@ public class CPVetMigrator {
             return;
         }
 
+        System.out.println("encontro cpvet");
 
         for (File file : files) {
 
@@ -56,6 +58,7 @@ public class CPVetMigrator {
     }
 
     private void processZipFile(File file, Long vetClinicId, Long vetUserId) throws IOException {
+        System.out.println("procesando cpvet");
 
 
         List<UserResponse> users;

@@ -33,7 +33,7 @@ public class CPVetMigrator {
     public void processFiles() throws IOException {
         System.out.println("ingreso cpvet");
         File folder = new File(DIRECTORY_PATH);
-        File[] files = folder.listFiles((dir, name) -> name.endsWith(".MDB"));
+        File[] files = folder.listFiles();
 
         if (files == null) {
             System.out.println("Not files found");

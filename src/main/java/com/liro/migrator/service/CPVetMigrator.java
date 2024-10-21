@@ -119,7 +119,7 @@ public class CPVetMigrator {
     private Long[] extractVetUserIdsFromFileName(String fileName) {
         try {
             // Elimina la extensión .zip del nombre del archivo
-            String vetUserIdsStr = fileName.replace(".zip", "");
+            String vetUserIdsStr = fileName.replace(".MDB", "");
 
             // Divide el nombre usando el guion para extraer los dos números
             String[] parts = vetUserIdsStr.split("-");

@@ -49,8 +49,9 @@ public class MigratorController {
     @PostMapping(value = "/applications", produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> migrateApplications(@RequestBody(required = true) MultipartFile file,
                                                     @RequestBody(required = true) Long vetUserId,
+                                                    @RequestBody(required = true) Long clinicId,
                                                     @RequestBody(required = true)List<AnimalMigrationResponse> animalMigrationResponses) throws IOException, CsvException{
-        applicationsMigrator.migrateApplications(file, vetUserId, animalMigrationResponses);
+        applicationsMigrator.migrateApplications(file, vetUserId,clinicId, animalMigrationResponses);
 
         return ResponseEntity.status(200).build();
     }

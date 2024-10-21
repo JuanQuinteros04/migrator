@@ -24,7 +24,7 @@ public class ApplicationsMigrator {
     private final DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 
-    public void migrateApplications(MultipartFile file, Long vetUserId, List<AnimalMigrationResponse> animalMigrationResponses) throws IOException, CsvException {
+    public void migrateApplications(MultipartFile file, Long vetUserId, Long vetClinicId , List<AnimalMigrationResponse> animalMigrationResponses) throws IOException, CsvException {
 
         List<ApplicationRecordDTO> applicationRecordDTOS = new ArrayList<>();
 

@@ -47,20 +47,20 @@ public class ApplicationsMigrator {
 
                     String codigoPaciente = row[fields.get("Codigopaci")];
 
+                    Long medicineId = medicineIdConverter(row[fields.get("vacuna")]);
+                    LocalDate applicationDate = dateConverter(row[fields.get("fecha_apli")]);
+                    LocalDate endDate = dateConverter(row[fields.get("fecha_reva")]);
+
 
                     Optional<AnimalMigrationResponse> animal = animalMigrationResponses.stream()
                             .filter(animalMigrationResponse -> animalMigrationResponse.getVetterCode().equals(vetUserId + "-" + codigoPaciente))
                             .findFirst();
 
 
-                    ApplicationRecordDTO applicationDTO = ApplicationRecordDTO.builder()
-                          //  .animalId(row[fields.get(animal)])// De donde sale? se supone que ya esta en la DB
-                            .medicineId(medicineIdConverter(row[fields.get("vacuna")]))
-                           // .applicationDate(dateConverter(row[fields.get("fecha_apli")]))
-                           // .endDate(dateConverter(row[fields.get("fecha_reva")]))
-                            .build();
+                    if (animal.isPresent()){
+                        parseApplicationRecords(applicationRecordDTOS, animal.get(), medicineId, applicationDate, endDate);
+                    }
 
-                    applicationRecordDTOS.add(applicationDTO);
                 }
 
                 feignMedicineClient.createApplications(applicationRecordDTOS);
@@ -68,6 +68,19 @@ public class ApplicationsMigrator {
         }
     }
 
+
+    private void parseApplicationRecords(List<ApplicationRecordDTO>applicationRecordDTOS, AnimalMigrationResponse animalMigrationResponse, Long medicineId, LocalDate applicationDate, LocalDate endDate){
+
+
+        ApplicationRecordDTO applicationDTO = ApplicationRecordDTO.builder()
+                .animalId(animalMigrationResponse.getId())
+                .medicineId(medicineId)
+                .applicationDate(applicationDate)
+                .endDate(endDate)
+                .build();
+
+        applicationRecordDTOS.add(applicationDTO);
+    }
 
 
     private Long medicineIdConverter(String name){
@@ -107,13 +120,14 @@ public class ApplicationsMigrator {
         }
     }
 
-    private String dateConverter(String date){
+
+    private LocalDate dateConverter(String date){
 
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); // Formato de entrada
         DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Formato de salida
 
         LocalDate applicationDate = LocalDate.parse(date, inputFormatter);
 
-        return applicationDate.format(outputFormatter);
+        return applicationDate;
     }
 }

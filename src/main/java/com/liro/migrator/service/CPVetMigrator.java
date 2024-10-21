@@ -102,7 +102,7 @@ public class CPVetMigrator {
                 }
             }
         }
-    }
+
 
 
     private void moveFileToProcessedFolder(File file) throws IOException {
@@ -133,4 +133,4 @@ public class CPVetMigrator {
         }
     }
 }
-}
+

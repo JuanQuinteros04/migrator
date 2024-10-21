@@ -69,11 +69,13 @@ public class CPVetMigrator {
             ResultSet resultSet = null;
 
             try {
+
                 // Path to your .mdb file
                 String databasePath = file.getAbsolutePath();
 
                 // UCanAccess JDBC URL
-                String url = "jdbc:ucanaccess://" + databasePath;
+                String url = "jdbc:ucanaccess://" + databasePath +
+                        ";jackcessOpener=com.liro.migrator.config.CryptCodecOpener";
 
                 // Establish the connection
                 connection = DriverManager.getConnection(url);

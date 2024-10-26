@@ -117,7 +117,7 @@ public class CPVetMigrator {
                     }
 
 
-
+/*
                     AnimalDTO animalDTO = AnimalDTO.builder()
                             .name(nameMascota)
                             .surname(null)
@@ -128,7 +128,7 @@ public class CPVetMigrator {
                             .breed(raza)
                             .ownerUserId(user.get().getId())
                             .build();
-
+*/
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

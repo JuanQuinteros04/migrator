@@ -27,8 +27,7 @@ public class BreedsMigrator {
         List<BreedDTO> breedDTOS = new ArrayList<>();
 
 
-        InputStream dbf = new ByteArrayInputStream(file.getBytes());
-        ;
+        InputStream dbf = new ByteArrayInputStream(file.getBytes());;
 
         try (DBFReader reader = new DBFReader(dbf)) {
 

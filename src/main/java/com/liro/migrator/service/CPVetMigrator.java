@@ -1,22 +1,17 @@
 package com.liro.migrator.service;
 
-import com.liro.migrator.dtos.AnimalMigrationResponse;
-import com.liro.migrator.dtos.UserResponse;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
+import com.liro.migrator.dtos.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import java.util.Objects;
 
 @Component
 public class CPVetMigrator {
@@ -86,13 +81,54 @@ public class CPVetMigrator {
                 // Execute a query to read data from the table
                 resultSet = statement.executeQuery("SELECT * FROM Identificacion");
 
+                ClientRegister current = null;
                 // Process the result set
                 while (resultSet.next()) {
-                    System.out.println("Column1: " + resultSet.getString("Propietario"));
-                    System.out.println("Column1: " + resultSet.getString("Domicilio"));
-                    System.out.println("Column1: " + resultSet.getString("Tel"));
+                    String name = resultSet.getString("Propietario");
+                    String direccion = resultSet.getString("Domicilio");
+                    String tel = resultSet.getString("Tel");
+                    String nameMascota = resultSet.getString("Mascotas");
+                    String birthDate = resultSet.getString("BirthDate");
+                    String sexo = resultSet.getString("Sexo");
+                    String especie = resultSet.getString("Especie");
+                    String raza = resultSet.getString("Raza");
+                    String peso = resultSet.getString("Peso");
+                    String id = resultSet.getString("IDPac");
 
-                    // Add more columns if needed
+
+                    if(current ==null || (!Objects.equals(current.getAddress().getAddressLine1(), direccion) || Objects.equals(current.getName(), name))){
+
+                        AddressDTO addressDTO = AddressDTO.builder()
+                                .city(null)
+                                .country("Argentina")
+                                .location(null)
+                                .addressLine1(direccion)
+                                .postalCode(null)
+                                .build();
+
+                        current = ClientRegister.builder()
+                                .name(name)
+                                .phoneNumber(tel)
+                                .saldo(0.00)
+                                .email(null)
+                                .address(addressDTO)
+                                .codigo(null)
+                                .build();
+                    }
+
+
+
+                    AnimalDTO animalDTO = AnimalDTO.builder()
+                            .name(nameMascota)
+                            .surname(null)
+                            .death(false)
+                            .vetterCode(codigoPaciente)
+                            .sex(sexConverter(sexo))
+                            .birthDate(fechaNaci)
+                            .breed(raza)
+                            .ownerUserId(user.get().getId())
+                            .build();
+
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

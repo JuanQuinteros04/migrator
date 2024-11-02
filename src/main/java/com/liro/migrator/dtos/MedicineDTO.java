@@ -25,7 +25,9 @@ public class MedicineDTO {
 
 
     private String brandName;
-    private Long medicineTypeId;
+    private String medicineType;
     private Set<String> medicineGroups;
+    private Set<String> components;
+
     private String presentationName;
 }

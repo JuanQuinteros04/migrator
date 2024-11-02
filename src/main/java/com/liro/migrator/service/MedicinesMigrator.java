@@ -10,6 +10,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,7 +23,6 @@ public class MedicinesMigrator {
     @Autowired
     FeignMedicineClient feignMedicineClient;
     private static final CsvMapper mapper = new CsvMapper();
-    private static final List<String> polivalentes = Arrays.asList("Quíntuple", "Cuádruple", "Triple", "Doble");
 
     public void migrateMedicines(MultipartFile file) throws IOException, CsvException {
 
@@ -46,14 +46,15 @@ public class MedicinesMigrator {
 
                 medicineDTOS.add(MedicineDTO.builder()
                         .brandName(row[fields.get("Marca")])
-                        .medicineTypeId(medicineTypeConverter(row[fields.get("Tipo")]))
+                        .medicineType(row[fields.get("Tipo")])
                         .presentationName(row[fields.get("Presentación")])
                         .animalType(animalTypeConverter(row[fields.get("Uso en")]))
                         .dosesUnity(row[fields.get("Unidad Dosis")])
                         .commercialName(row[fields.get("Nombre comercial")])
                         .formalName(row[fields.get("Nombre científico")])
                         .onlyVetUse(onlyVetUseConverter(row[fields.get("Uso")]))
-                        .medicineGroups(medicinesGroupsConverter(row[fields.get("SubTipo")]))
+                        .components(setsConverter(row[fields.get("Combate")]))
+                        .medicineGroups(setsConverter(row[fields.get("SubTipo")]))
                         .needPrescription(needPrescriptionConverter(row[fields.get("Tipo de venta")]))
                         .build());
 
@@ -66,31 +67,23 @@ public class MedicinesMigrator {
         }
     }
 
-    private Long medicineTypeConverter(String medicineType) {
 
-        switch (medicineType) {
-
-            case "Vacuna":
-                return 1L;
-            case "Antiparasitario Interno":
-                return 2L;
-            case "Antiparasitario Externo":
-            default:
-                return 3L;
-        }
-    }
-
+   //need to be changed when adding one to many relation in medicines (not enum).
     private AnimalType animalTypeConverter(String animalType) {
 
-        switch (animalType) {
+        String[] animalTypesSplit = animalType.split(",");
 
-            case "Felinos":
-                return AnimalType.CAT;
-            case "Caninos":
-                return AnimalType.DOG;
-            case "Caninos y Felinos":
-            default:
-                return AnimalType.ALL_TYPE;
+        if (animalTypesSplit.length > 1) {
+            return AnimalType.ALL_TYPE;
+        } else {
+            switch (animalTypesSplit[0]) {
+
+                case "Felinos":
+                    return AnimalType.CAT;
+                case "Caninos":
+                    return AnimalType.DOG;
+                default: return AnimalType.ALL_TYPE;
+            }
         }
     }
 
@@ -104,20 +97,17 @@ public class MedicinesMigrator {
         return onlyVetUse.equals("Uso veterinario") ? Boolean.TRUE : Boolean.FALSE;
     }
 
-    private Set<String> medicinesGroupsConverter(String medicineGroup) {
+    private Set<String> setsConverter(String setInput) {
 
-        Set<String> medicinesGroups = new HashSet<>();
+        Set<String> sets = new HashSet<>();
 
-        if(!Objects.equals(medicineGroup, "")){
-            medicinesGroups.add(medicineGroup);
+        String[] setsSplit = setInput.split(",");
 
-            polivalentes.forEach(polivalente -> {
-                if (polivalente.contains(medicineGroup)) {
-                    medicinesGroups.add("polivalent");
-
-                }
-            });
+        for(int i = 0; i < setsSplit.length; i++){
+            if(!StringUtils.hasText((setsSplit[i]))) {
+                sets.add(setsSplit[i]);
+            }
         }
-        return medicinesGroups;
+        return sets;
     }
 }

@@ -36,7 +36,10 @@ public class BreedsMigrator
             }
 
             while (iterator.hasNext()) {
+                iterator.next();
                 String[] row = iterator.next();
+
+
 
                 breedDTOS.add(BreedDTO.builder()
                         .name(row[fields.get("Raza")])

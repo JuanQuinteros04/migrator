@@ -104,7 +104,7 @@ public class MedicinesMigrator {
         String[] setsSplit = setInput.split(",");
 
         for(int i = 0; i < setsSplit.length; i++){
-            if(!StringUtils.hasText((setsSplit[i]))) {
+            if(StringUtils.hasText((setsSplit[i]))) {
                 sets.add(setsSplit[i]);
             }
         }

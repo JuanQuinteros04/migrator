@@ -71,7 +71,7 @@ public class BreedsMigrator
         String[] setsSplit = setInput.split(";");
 
         for(int i = 0; i < setsSplit.length; i++){
-            if(!StringUtils.hasText((setsSplit[i]))) {
+            if(StringUtils.hasText((setsSplit[i]))) {
                 System.out.println(setsSplit[i].toLowerCase().trim());
                 sets.add(setsSplit[i].toLowerCase().trim());
             }

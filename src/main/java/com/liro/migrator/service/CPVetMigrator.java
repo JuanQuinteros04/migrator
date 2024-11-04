@@ -107,7 +107,7 @@ public class CPVetMigrator {
                 if (StringUtils.isNotBlank(tel)) {
 
                     AddressDTO addressDTO = AddressDTO.builder()
-                            .city(null)
+                            .city("Córdoba")
                             .country("Argentina")
                             .location(null)
                             .addressLine1(direccion)

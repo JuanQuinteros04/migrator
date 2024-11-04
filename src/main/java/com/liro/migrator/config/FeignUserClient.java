@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.List;
 
 @FeignClient(name = "users-service")
@@ -17,5 +18,9 @@ public interface FeignUserClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/users/clients")
     ResponseEntity<List<UserResponse>> createClients(@RequestBody List<ClientRegister> clientRegisters,
+                                                     @RequestParam("vetClinicId") Long vetClinicId);
+
+    @RequestMapping(method = RequestMethod.POST, value = "/users/clients/cpvet")
+    ResponseEntity<HashMap<String, UserResponse>> createClientsCPVet(@RequestBody HashMap<String, ClientRegister> clientRegisters,
                                                      @RequestParam("vetClinicId") Long vetClinicId);
 }

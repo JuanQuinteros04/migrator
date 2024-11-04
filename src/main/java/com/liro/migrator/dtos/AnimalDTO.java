@@ -28,4 +28,5 @@ public class AnimalDTO {
     private String breed;
     private Long ownerUserId;
     private String vetterCode;
+    private String especie;
 }

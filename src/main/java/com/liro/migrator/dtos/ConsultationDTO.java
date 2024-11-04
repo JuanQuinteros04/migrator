@@ -18,5 +18,6 @@ public class ConsultationDTO {
     private String details;
     private Long animalId;
     private LocalDate localDate;
+    private String treatment;
     private Double weight;
 }

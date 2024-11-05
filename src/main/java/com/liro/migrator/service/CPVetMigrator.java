@@ -136,8 +136,7 @@ public class CPVetMigrator {
                 Date birthDate = resultSet.getDate("BirthDate");
                 String sexo = resultSet.getString("Sexo");
                 String especie = resultSet.getString("Especie");
-                String raza = resultSet.getString("Raza").trim().toLowerCase();
-                String peso = resultSet.getString("Peso");
+                String raza = breedConverter(resultSet.getString("Raza"));
                 String id = resultSet.getString("IDPac");
                 String tel = resultSet.getString("Tel");
 
@@ -250,6 +249,16 @@ public class CPVetMigrator {
             case "H":
             default:
                 return Sex.FEMALE;
+        }
+    }
+
+
+    private String breedConverter(String breed){
+
+        if (breed!=null){
+            return breed.trim().toLowerCase()
+        }else{
+            return "mestizo";
         }
     }
 }

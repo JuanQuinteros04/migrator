@@ -256,7 +256,7 @@ public class CPVetMigrator {
     private String breedConverter(String breed){
 
         if (breed!=null){
-            return breed.trim().toLowerCase()
+            return breed.trim().toLowerCase();
         }else{
             return "mestizo";
         }

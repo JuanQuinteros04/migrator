@@ -18,6 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Date;
@@ -174,7 +175,8 @@ public class CPVetMigrator {
                 String historiaT = resultSet.getString("HistoriaT");
                 String tratamiento = resultSet.getString("Tratamiento");
 
-                DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                DateTimeFormatter formatoFechaHora = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+
 
 
                 Optional<AnimalMigrationResponse> animal = animalResponses.stream()
@@ -186,7 +188,7 @@ public class CPVetMigrator {
                     ConsultationDTO consultationDTO = ConsultationDTO.builder()
                             .animalId(animal.get().getId())
                             .details(historiaT)
-                            .localDate(fecha != null ? LocalDate.parse(fecha, formatoFecha) : null)
+                            .localDate(fecha != null ? LocalDateTime.parse(fecha, formatoFechaHora).toLocalDate() : null)
                             .treatment(tratamiento)
                             .build();
 

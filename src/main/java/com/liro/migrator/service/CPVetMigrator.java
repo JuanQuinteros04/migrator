@@ -183,7 +183,7 @@ public class CPVetMigrator {
                         .findFirst();
 
 
-                if(animal.isPresent()) {
+                if (animal.isPresent()) {
                     ConsultationDTO consultationDTO = ConsultationDTO.builder()
                             .animalId(animal.get().getId())
                             .details(historiaT)
@@ -240,8 +240,17 @@ public class CPVetMigrator {
     }
 
     private Sex sexConverter(String sexo) {
-        return sexo.equals("M") ? Sex.FEMALE : Sex.MALE;
-    }
+        if (sexo == null) {
+            return Sex.MALE;
+        }
 
+        switch (sexo) {
+            case "M":
+                return Sex.MALE;
+            case "H":
+            default:
+                return Sex.FEMALE;
+        }
+    }
 }
 

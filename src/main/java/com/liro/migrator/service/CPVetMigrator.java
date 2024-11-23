@@ -115,12 +115,16 @@ public class CPVetMigrator {
                             .postalCode(null)
                             .build();
 
-                    String surname = null;
-                    String[] nameSplited = name.split(" ");
 
-                    if (nameSplited.length > 1) {
-                    name = String.join(" ", Arrays.copyOfRange(nameSplited, 0, nameSplited.length-1));
-                    surname = nameSplited[nameSplited.length-1];
+                    String surname = null;
+
+                    if(name!=null){
+                        String[] nameSplited = name.split(" ");
+
+                        if (nameSplited.length > 1) {
+                            name = String.join(" ", Arrays.copyOfRange(nameSplited, 0, nameSplited.length-1));
+                            surname = nameSplited[nameSplited.length-1];
+                        }
                     }
 
 

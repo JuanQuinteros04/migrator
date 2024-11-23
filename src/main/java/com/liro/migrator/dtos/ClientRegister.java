@@ -19,6 +19,7 @@ import java.time.LocalDate;
 public class ClientRegister {
 
     private String name;
+    private String surname;
     private String phoneNumber;
     private String areaPhoneNumber;
     private String email;

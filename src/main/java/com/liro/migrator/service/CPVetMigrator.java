@@ -161,7 +161,8 @@ public class CPVetMigrator {
 
                 peso = peso != null ? peso.replace(",", ".") : null;
 
-                tel = tel.length() > 7 ? tel.substring(tel.length() - 7) : tel;
+
+                tel = (tel != null && tel.length()> 7) ? tel.substring(tel.length() - 7) : tel;
 
                     UserResponse response1 = response.get(tel);
 

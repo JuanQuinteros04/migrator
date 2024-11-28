@@ -115,6 +115,7 @@ public class CPVetMigrator {
                             .postalCode(null)
                             .build();
 
+                    tel = tel.length() > 7 ? tel.substring(tel.length() - 7) : tel;
 
                     String surname = null;
 
@@ -159,6 +160,10 @@ public class CPVetMigrator {
 
                 peso = peso != null ? peso.replace(",", ".") : null;
 
+
+                if (tel != null) {
+                    tel = tel.length() > 7 ? tel.substring(tel.length() - 7) : tel;
+                }
 
                 UserResponse response1 = response.get(tel);
 

@@ -118,12 +118,12 @@ public class CPVetMigrator {
 
                     String surname = null;
 
-                    if(name!=null){
+                    if (name != null) {
                         String[] nameSplited = name.split(" ");
 
                         if (nameSplited.length > 1) {
-                            name = String.join(" ", Arrays.copyOfRange(nameSplited, 0, nameSplited.length-1));
-                            surname = nameSplited[nameSplited.length-1];
+                            name = String.join(" ", Arrays.copyOfRange(nameSplited, 0, nameSplited.length - 1));
+                            surname = nameSplited[nameSplited.length - 1];
                         }
                     }
 
@@ -137,8 +137,6 @@ public class CPVetMigrator {
                             .address(addressDTO)
                             .codigo(null)
                             .build();
-
-                    tel = tel.length() > 7 ? tel.substring(tel.length() - 7) : tel;
 
 
                     clientRegisterRequest.put(tel, clientRegister);
@@ -162,24 +160,22 @@ public class CPVetMigrator {
                 peso = peso != null ? peso.replace(",", ".") : null;
 
 
-                tel = (tel != null && tel.length()> 7) ? tel.substring(tel.length() - 7) : tel;
+                UserResponse response1 = response.get(tel);
 
-                    UserResponse response1 = response.get(tel);
+                AnimalDTO animalDTO = AnimalDTO.builder()
+                        .name(nameMascota)
+                        .surname(null)
+                        .death(false)
+                        .vetterCode(id)
+                        .sex(sexConverter(sexo))
+                        .birthDate(birthDate)
+                        .especie(especie)
+                        .breed(raza)
+                        .ownerUserId(response1 != null ? response1.getId() : null)
+                        .peso(peso)
+                        .build();
 
-                    AnimalDTO animalDTO = AnimalDTO.builder()
-                            .name(nameMascota)
-                            .surname(null)
-                            .death(false)
-                            .vetterCode(id)
-                            .sex(sexConverter(sexo))
-                            .birthDate(birthDate)
-                            .especie(especie)
-                            .breed(raza)
-                            .ownerUserId(response1 != null ? response1.getId() : null)
-                            .peso(peso)
-                            .build();
-
-                    animalDTOS.add(animalDTO);
+                animalDTOS.add(animalDTO);
 
             }
 
@@ -198,7 +194,6 @@ public class CPVetMigrator {
                 String tratamiento = resultSet.getString("Tratamiento");
 
                 DateTimeFormatter formatoFechaHora = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
-
 
 
                 Optional<AnimalMigrationResponse> animal = animalResponses.stream()
@@ -277,11 +272,11 @@ public class CPVetMigrator {
     }
 
 
-    private String breedConverter(String breed){
+    private String breedConverter(String breed) {
 
-        if (breed!=null){
+        if (breed != null) {
             return breed.trim().toLowerCase();
-        }else{
+        } else {
             return "mestizo";
         }
     }

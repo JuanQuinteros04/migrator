@@ -157,7 +157,9 @@ public class CPVetMigrator {
                 String raza = breedConverter(resultSet.getString("Raza"));
                 String id = resultSet.getString("IDPac");
                 String tel = resultSet.getString("Tel");
-                String peso = resultSet.getString("Peso").replace(",", ".");
+                String peso = resultSet.getString("Peso");
+
+                peso = peso != null ? peso.replace(",", ".") : null;
 
                 tel = tel.length() > 7 ? tel.substring(tel.length() - 7) : tel;
 

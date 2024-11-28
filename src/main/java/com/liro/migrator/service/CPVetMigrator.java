@@ -115,7 +115,7 @@ public class CPVetMigrator {
                             .postalCode(null)
                             .build();
 
-                    tel = tel.length() > 7 ? tel.substring(tel.length() - 7) : tel;
+                    String newTel = tel.length() > 7 ? tel.substring(tel.length() - 7) : tel;
 
                     String surname = null;
 
@@ -140,7 +140,7 @@ public class CPVetMigrator {
                             .build();
 
 
-                    clientRegisterRequest.put(tel, clientRegister);
+                    clientRegisterRequest.put(newTel, clientRegister);
                 }
             }
             HashMap<String, UserResponse> response = feignUserClient.createClientsCPVet(clientRegisterRequest, vetClinicId).getBody();
@@ -159,7 +159,6 @@ public class CPVetMigrator {
                 String peso = resultSet.getString("Peso");
 
                 peso = peso != null ? peso.replace(",", ".") : null;
-
 
                 if (tel != null) {
                     tel = tel.length() > 7 ? tel.substring(tel.length() - 7) : tel;

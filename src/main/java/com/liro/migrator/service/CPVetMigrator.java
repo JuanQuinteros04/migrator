@@ -138,6 +138,9 @@ public class CPVetMigrator {
                             .codigo(null)
                             .build();
 
+                    tel = tel.length() > 7 ? tel.substring(tel.length() - 7) : tel;
+
+
                     clientRegisterRequest.put(tel, clientRegister);
                 }
             }
@@ -154,8 +157,9 @@ public class CPVetMigrator {
                 String raza = breedConverter(resultSet.getString("Raza"));
                 String id = resultSet.getString("IDPac");
                 String tel = resultSet.getString("Tel");
+                String peso = resultSet.getString("Peso").replace(",", ".");
 
-                if (StringUtils.isNotBlank(tel)) {
+                tel = tel.length() > 7 ? tel.substring(tel.length() - 7) : tel;
 
                     UserResponse response1 = response.get(tel);
 
@@ -168,11 +172,12 @@ public class CPVetMigrator {
                             .birthDate(birthDate)
                             .especie(especie)
                             .breed(raza)
-                            .ownerUserId(response1.getId())
+                            .ownerUserId(response1 != null ? response1.getId() : null)
+                            .peso(peso)
                             .build();
 
                     animalDTOS.add(animalDTO);
-                }
+
             }
 
             List<AnimalMigrationResponse> animalResponses = feignAnimalClient.createAnimals(animalDTOS, vetClinicId).getBody();

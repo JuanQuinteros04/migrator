@@ -45,6 +45,7 @@ public class MedicinesMigrator {
                 String[] row = iterator.next();
 
                 medicineDTOS.add(MedicineDTO.builder()
+
                         .brandName(row[fields.get("Marca")])
                         .medicineType(row[fields.get("Tipo")])
                         .presentationName(row[fields.get("Presentación")])

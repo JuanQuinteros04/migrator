@@ -107,6 +107,7 @@ public class CPVetMigrator {
 
                 if (StringUtils.isNotBlank(tel)) {
 
+
                     AddressDTO addressDTO = AddressDTO.builder()
                             .city("Córdoba")
                             .country("Argentina")
@@ -114,6 +115,8 @@ public class CPVetMigrator {
                             .addressLine1(direccion)
                             .postalCode(null)
                             .build();
+
+                    tel = tel.replace(" ", "");
 
                     String newTel = tel.length() > 7 ? tel.substring(tel.length() - 7) : tel;
 
@@ -161,6 +164,7 @@ public class CPVetMigrator {
                 peso = peso != null ? peso.replace(",", ".") : null;
 
                 if (tel != null) {
+                    tel = tel.replace(" ", "");
                     tel = tel.length() > 7 ? tel.substring(tel.length() - 7) : tel;
                 }
 
